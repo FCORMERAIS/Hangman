@@ -134,7 +134,9 @@ func begin() {
 		print_word(letterUser,word)
 		fmt.Print("vous avez ")
 		fmt.Print(attemps)
-		fmt.Println(" tentatives avant un d'échoué \n \n")
+		fmt.Println(" tentatives avant un d'échoué ")
+		fmt.Println()
+		fmt.Println()
 		fmt.Print("les lettres que vous avez utilisez sont : ")
 		fmt.Println(letterUser)
 		fmt.Println("")
@@ -144,18 +146,24 @@ func begin() {
 			letter = string(int(letter[0]-32))
 		}
 		if testLetter(letter,letterUser) == false {
-			fmt.Println("vous avez déja rentrez cette lettre au par avant \n \n")
+			fmt.Println("vous avez déja rentrez cette lettre au par avant ")
+			fmt.Println()
+			fmt.Println()
 			continue
 		}else {
 			letterUser = append(letterUser,letter)
 		}
 		if letterChooseTest(letter, word) == false {
-			fmt.Println("la lettre que vous avez choisie n'est pas dans le mot \n \n")
+			fmt.Println("la lettre que vous avez choisie n'est pas dans le mot ")
+			fmt.Println()
+			fmt.Println()
 			attemps--
 			show_José(attemps)
 			continue
 		}else {
-			fmt.Println("vous avez trouvé une lettre de plus ! \n \n")
+			fmt.Println("vous avez trouvé une lettre de plus ! ")
+			fmt.Println()
+			fmt.Println()
 		}
 	}
 	if attemps > 0 {
