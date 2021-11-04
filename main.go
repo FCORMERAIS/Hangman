@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"time"
+	"os"
 )
 
 func main() {
@@ -47,6 +48,8 @@ func chooseWord() string {
 	s, err := ioutil.ReadFile("word1.txt") // ouverture du fichier word1 contenant tout les mots et qui seront stockés dans s
 	if err != nil {
 		fmt.Printf(err.Error()) // renvois de l'erreur lors de louverture du fichier si il y a un problème 
+		fmt.Println(" Le fichier word1.txt a planter...")
+		os.Exit(1)
 	}
 	var list []string
 	var word string = ""
@@ -76,6 +79,8 @@ func showJosé(attemps int) {
 		s, err := ioutil.ReadFile("Hangman.txt") // ouverture du fichier txt Hangman contenant tout les position possible du pendu et les stock dans "s"
 		if err != nil {
 			fmt.Printf(err.Error()) // renvois d'une erreur si il y en a une 
+			fmt.Println(" Le fichier Hangman.txt a planter...")
+			os.Exit(1)
 		}
 		hangman := ""
 		attemps++ // incrémentation de attemps
