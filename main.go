@@ -20,44 +20,47 @@ func printWord(letter_choose []string, word string) {
 
 	copléxité O(n²)
 	*/
-	count := 0
+	count := 0 
 	for i:= 0 ; i < len(word) ;i++{
-		for k := 0; k < len(letter_choose); k++ {
+		for k := 0; k < len(letter_choose); k++ { // debut de la boucle
 			if string(word[i]) == string(letter_choose[k]) {
 				fmt.Print(string(word[i]))
 				count++
 			}
-		}
+		} //fin de la boucle
 		if count == 0 {
-			fmt.Print("_")
+			fmt.Print("_") // renvoie un underscore si le joueur n'a pas trouver la lettre 
 		}
 		count = 0
 	}
-	fmt.Println(" ")
-	fmt.Println(" ")
+	fmt.Print("\n \n") // saut a la ligne
 }
 
 func chooseWord() string {
 	/*
 	fonction permettant de prendre un mot aléatoire dans une banque de mots 
+
+	return : un mot aléatoire de type sring
+
+	complexité : O(n) ; n = nombre de caractère de tout les mots reunis 
 	*/
-	s, err := ioutil.ReadFile("word1.txt")
+	s, err := ioutil.ReadFile("word1.txt") // ouverture du fichier word1 contenant tout les mots et qui seront stockés dans s
 	if err != nil {
-		fmt.Printf(err.Error())
+		fmt.Printf(err.Error()) // renvois de l'erreur lors de louverture du fichier si il y a un problème 
 	}
 	var list []string
 	var word string = ""
-	for i := 0; i < len(s); i++ {
+	for i := 0; i < len(s); i++ { // debut boucle
 		if string(s[i]) == "\n" {
-			list = append(list,word)
+			list = append(list,word) 
 			word = ""
 		}else {
-			word = word + string(int(s[i]-32))
+			word = word + string(int(s[i]-32))// on ajoute tout les mots contenu dans le fichier dans une liste nommé "list"
 		}
-	}
+	} // fin boucle
 	list = append(list,word)
-	rand.Seed(time.Now().UnixNano())
-	return list[rand.Int31n(83)]
+	rand.Seed(time.Now().UnixNano()) // ceci permet de faire en sorte que l'aléatoire marche 
+	return list[rand.Int31n(83)] // renvois un mot choisis aléatoirement dans notre liste de mots 
 }
 
 func showJosé(attemps int) {
@@ -68,18 +71,18 @@ func showJosé(attemps int) {
 
 	compléxité : O(71)
 	*/
-	if attemps == 10 {
+	if attemps == 10 { // ne rien renvoyer si il n'y a pas eu d'erreur
 	}else {
-		s, err := ioutil.ReadFile("Hangman.txt")
+		s, err := ioutil.ReadFile("Hangman.txt") // ouverture du fichier txt Hangman contenant tout les position possible du pendu et les stock dans "s"
 		if err != nil {
-			fmt.Printf(err.Error())
+			fmt.Printf(err.Error()) // renvois d'une erreur si il y en a une 
 		}
 		hangman := ""
-		attemps++
-		for i := attemps*71-71; i < 71*attemps-1; i++ {
-			hangman = hangman + string(s[i])
-		}
-		fmt.Println(hangman)
+		attemps++ // incrémentation de attemps
+		for i := attemps*71-71; i < 71*attemps-1; i++ { // debut boucle
+			hangman = hangman + string(s[i]) // on ajoute caractèere par caractère le hangman stockés dans s dans la variable string hangman 
+		} // fin boucle
+		fmt.Println(hangman) // on imprime hangman 
 	}
 }
 
@@ -95,14 +98,14 @@ func take_letter(word2 string) []string{
 	*/
 	var tab []string
 	rand.Seed(time.Now().UnixNano())
-	tab = append(tab,string(word2[rand.Intn(len(word2)-1)]))
+	tab = append(tab,string(word2[rand.Intn(len(word2)-1)])) // prend une lettre aléatoire dans le mot a deviner et l'ajoute dans les lettres déja choisie 
 	for i := 0; i < len(word2); i++ {
-		if string(word2[i]) == "-" {
+		if string(word2[i]) == "-" { // si il y a un tiret l'ajoute aussi dans notre liste 
 			tab = append(tab,"-") 
 			return tab 
 		}
 	}
-	return tab 
+	return tab // renvois le tableau contenant 
 }
 func win(wordChoose string, group_letter []string) bool {
 	/*
@@ -116,16 +119,16 @@ func win(wordChoose string, group_letter []string) bool {
 	Complexité : O(n²)
 	*/
 	count := 0 
-	for i := 0; i < len(wordChoose); i++ {
-		for k := 0; k < len(group_letter); k++ {
-			if group_letter[k] == string(wordChoose[i]) {
-				count++
-			}
-		}
+	for i := 0; i < len(wordChoose); i++ { // debut boucle i
+		for k := 0; k < len(group_letter); k++ { // debut boucle k 
+			if group_letter[k] == string(wordChoose[i]) { // on vérifie si une lettre du mot est dans notre liste de mot 
+				count++ // si la lettre du mot est dans notre liste de lettre on ajoute 1 a un compteur 
+			}// fin obucle k
+		} // fin boucle i
 	}
-	if count == len(wordChoose) {
+	if count == len(wordChoose) { // si notre compteur est égal a la longueur du mot a deviner alors nous avons trouver toutes les lettres
 		return true
-	}else {
+	}else { // sinon non
 		return false
 	}
 }
@@ -142,7 +145,7 @@ func testLetter(letter string, letter_choose[]string) bool{
 	Compléxité : O(2n) ; n = letter_choose
 	*/
 	for i := 0 ;i < len(letter_choose) ; i++{
-		if letter == string(letter_choose[i]) {
+		if letter == string(letter_choose[i]) { // on vérifie si la lettre choisie par l'utilisateur n'est pas déjà présente dans notre liste de mot si c'estle cas on renvois false
 			return false
 		}
 	}
@@ -161,7 +164,7 @@ func letterChooseTest(letter string, word string) bool {
 	complexité : O(2n) ; n = len(word)
 	*/
 	for i := 0; i < len(word); i++ {
-		if letter == string(word[i]) {
+		if letter == string(word[i]) { // on vérifie si la lettre choisi par l'utilisateur est présente dans le mot a deviner si c'est le cas en renvois true 
 			return true
 		}
 	}
@@ -179,7 +182,7 @@ func replay() bool{
 	answer := ""
 	fmt.Println("voulez-vous refaire une partie ? [Y/N] : ")
 	fmt.Scan(&answer)
-	if answer == "yes" || answer == "y"||answer == "YES" || answer == "Y"||answer == "Yes" {
+	if answer == "yes" || answer == "y"||answer == "YES" || answer == "Y"||answer == "Yes" { // si l'utilisateur ecrit yes il rejoue une partie sinon il quitte le programme 
 		return true
 	}else {
 		return false
@@ -191,10 +194,10 @@ func clear() {
 	/*
 	fonction permettant de clear la console pour que l'affichage soit plus propre 
 
-	O(30)
+	compléxité : O(30)
 	*/
 	for i := 0; i < 30; i++ {
-		fmt.Println()
+		fmt.Println() // retour a la ligne 
 	}
 }
 
@@ -202,54 +205,54 @@ func begin() {
 	/*
 	fonction principale du programme il permet de mettre en relation toutes les variables ci dessus, cette fonciton permet de jouer au pendu 
 	*/
-	attemps := 10
-	word := chooseWord()
+	attemps := 10 // il s'agit du nombre de tentatives qu'il nous reste 
+	word := chooseWord() // on choisi un mot aléatoire
 	letterUser := take_letter(word)
 	letter := ""
-	for attemps > 0 && win(word,letterUser) == false{
+	for attemps > 0 && win(word,letterUser) == false{ // on continu de jouer tant que la fonction win est fausse et que le nombre de tentatives est strictement supérieur a 0 /
 		clear()
-		showJosé(attemps)
+		showJosé(attemps)// imprime la position du pendu
 		fmt.Print("voici le mot que vous devez deviner : ")
-		printWord(letterUser,word)
+		printWord(letterUser,word)// imprime le mot que l'on doit deviner avec seulement les lettres 
 		fmt.Print("vous avez ")
-		fmt.Print(attemps)
+		fmt.Print(attemps) // on imprime 
 		fmt.Print(" tentatives avant un d'échoué \n \n \n")
 		fmt.Print("les lettres que vous avez utilisez sont : ")
-		fmt.Println(letterUser)
+		fmt.Println(letterUser) // imprime toutes les lettres que l'utilisateur a rentré 
 		fmt.Println("")
 		fmt.Printf(" entrez un caractère :  ")
-		fmt.Scan(&letter)
+		fmt.Scan(&letter)// on prend la lettre uqe l'utilisateur choisie
 		fmt.Println()
-		if 'a' <= rune(letter[0])&& rune(letter[0]) <= 'z' {
+		if 'a' <= rune(letter[0])&& rune(letter[0]) <= 'z' { // si la lettre est bien dans dans l'alphabet on le passe en majuscule 
 			letter = string(int(letter[0]-32))
 		}
-		if testLetter(letter,letterUser) == false {
-			fmt.Print("vous avez déja rentrez cette lettre au par avant \n \n \n")
+		if testLetter(letter,letterUser) == false { // on verifie si la lettre n'a jamais été choisie
+			fmt.Print("vous avez déja rentrez cette lettre au par avant \n \n \n") 
 			continue
 		}else {
-			letterUser = append(letterUser,letter)
+			letterUser = append(letterUser,letter) // on ajoute la lettre choisi par l'utilisateur dans letterUser si il ne la pas encore choisie 
 		}
-		if letterChooseTest(letter, word) == false {
+		if letterChooseTest(letter, word) == false { // on verifie si la lettre choisie par l'utilisateur est dans le mot ou pas 
 			fmt.Print("la lettre que vous avez choisie n'est pas dans le mot \n \n \n")
-			attemps--
+			attemps-- // si non on imprime que elle n'est pas dans le mot et on décremente de 1 attemps
 			continue
-		}else {
+		}else { // sinon cela veut dire que la lettre est forcément dans le mot 
 			fmt.Print("vous avez trouvé une lettre de plus ! \n \n \n")
 		}
-	}
-	if attemps > 0 {
+	}//FIN BOUCLE
+	if attemps > 0 { // si il reste des tentatives cela veut dire que l'utilisateur a gagner 
 		fmt.Print(" Bravo vous avez trouvé le mot !!! \n \n \n")
 		fmt.Print("le mot était : ")
 		fmt.Println(word)
-	}else {
+	}else { // sinon il a perdu
 		fmt.Print("Mince, José est mort vous n'avez pas su retrouver le mot :'( \n \n \n")
 		fmt.Print("le mot était : ")
 		fmt.Println(word)
 	}
-	if replay() == true {
+	if replay() == true { // si replay est égal a true on relance le programme begin qui recommence une partie 
 		clear()
 		begin()
-	}else {
+	}else { //sinon le programme s'arrete
 		fmt.Println("a bientôt ! :) ")
 	}
 }
