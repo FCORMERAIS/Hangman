@@ -13,7 +13,7 @@ func main() {
 	begin()
 }
 
-func printWord(letter_choose []string, word string) {
+func printWord(letter_choose []string, word []string) {
 	/*
 	fonction permettant d'afficher le mot en fonction des lettres que l'utilisateur a déjà trouver
 	input : -letter_choose type []string il s'agit des lettres que l'utilisateur a déjà rentrer 
@@ -49,7 +49,8 @@ func chooseWord() string {
 		os.Exit(1)
 	}
 	list := strings.Split(string(s),"\n") 
-	rand.Seed(time.Now().UnixNano()) // ceci permet de faire en sorte que l'aléatoire marche 
+	rand.Seed(time.Now().UnixNano()) // ceci permet de faire en sorte que l'aléatoire marche
+	fmt.Print(list) 
 	return strings.ToUpper(list[rand.Int31n(83)]) // renvois un mot choisis aléatoirement dans notre liste de mots 
 }
 
@@ -76,7 +77,7 @@ func showJosé(attemps int) {
 	}
 }
 
-func take_letter(word2 string) []string{
+func take_letter(word2 []string) []string{
 	/*
 	fonction permettant de donner une lettre qui est présente dans le mot a deviner 
 	input : word2 type string il s'agit du mot a deviner 
@@ -94,7 +95,7 @@ func take_letter(word2 string) []string{
 	}
 	return tab // renvois le tableau contenant 
 }
-func win(wordChoose string, group_letter []string) bool {
+func win(wordChoose []string, group_letter []string) bool {
 	/*
 	fonction qui permet de savoir si l'utilisateur a gagné en trouver toutes les lettres 
 	input : -wordChoose type string il sagit du mot que l'utilisateur doit choisir 
@@ -133,7 +134,7 @@ func testLetter(letter string, letter_choose[]string) bool{
 	return true
 }
 
-func letterChooseTest(letter string, word string) bool {
+func letterChooseTest(letter string, word []string) bool {
 	/*
 	fonction permettant de vérifier si la lettre chosi par l'utilisateur est contenu dans le mot a deviner
 	input : -letter : type string il sagit de la lettre choisi par l'utilisateur
@@ -183,14 +184,13 @@ func begin() {
 	attemps := 10 // il s'agit du nombre de tentatives qu'il nous reste 
 	word := chooseWord() // on choisi un mot aléatoire
 	test := strings.Split(word, "")
-	fmt.Print(len(test))
-	letterUser := take_letter(word)
+	letterUser := take_letter(test)
 	letter := ""
-	for attemps > 0 && win(word,letterUser) == false{ // on continu de jouer tant que la fonction win est fausse et que le nombre de tentatives est strictement supérieur a 0 /
+	for attemps > 0 && win(test,letterUser) == false{ // on continu de jouer tant que la fonction win est fausse et que le nombre de tentatives est strictement supérieur a 0 /
 		clear()
 		showJosé(attemps)// imprime la position du pendu
 		fmt.Print("voici le mot que vous devez deviner : ")
-		printWord(letterUser,word)// imprime le mot que l'on doit deviner avec seulement les lettres 
+		printWord(letterUser,test)// imprime le mot que l'on doit deviner avec seulement les lettres 
 		fmt.Print("vous avez ")
 		fmt.Print(attemps) // on imprime 
 		fmt.Print(" tentatives avant un d'échoué \n \n \n")
@@ -200,16 +200,14 @@ func begin() {
 		fmt.Printf(" entrez un caractère :  ")
 		fmt.Scan(&letter)// on prend la lettre uqe l'utilisateur choisie
 		fmt.Println()
-		if 'a' <= rune(letter[0])&& rune(letter[0]) <= 'z' { // si la lettre est bien dans dans l'alphabet on le passe en majuscule 
-			letter = string(int(letter[0]-32))
-		}
+		letter = strings.ToUpper(letter) // si la lettre est bien dans dans l'alphabet on le passe en majuscule 
 		if testLetter(letter,letterUser) == false { // on verifie si la lettre n'a jamais été choisie
 			fmt.Print("vous avez déja rentrez cette lettre au par avant \n \n \n") 
 			continue
 		}else {
 			letterUser = append(letterUser,letter) // on ajoute la lettre choisi par l'utilisateur dans letterUser si il ne la pas encore choisie 
 		}
-		if letterChooseTest(letter, word) == false { // on verifie si la lettre choisie par l'utilisateur est dans le mot ou pas 
+		if letterChooseTest(letter, test) == false { // on verifie si la lettre choisie par l'utilisateur est dans le mot ou pas 
 			fmt.Print("la lettre que vous avez choisie n'est pas dans le mot \n \n \n")
 			attemps-- // si non on imprime que elle n'est pas dans le mot et on décremente de 1 attemps
 			continue
