@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"time"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -15,10 +16,8 @@ func main() {
 func printWord(letter_choose []string, word string) {
 	/*
 	fonction permettant d'afficher le mot en fonction des lettres que l'utilisateur a déjà trouver
-
 	input : -letter_choose type []string il s'agit des lettres que l'utilisateur a déjà rentrer 
 			-word : type string il s'agit du mot a deviner 
-
 	copléxité O(n²)
 	*/
 	count := 0 
@@ -40,9 +39,7 @@ func printWord(letter_choose []string, word string) {
 func chooseWord() string {
 	/*
 	fonction permettant de prendre un mot aléatoire dans une banque de mots 
-
 	return : un mot aléatoire de type sring
-
 	complexité : O(n) ; n = nombre de caractère de tout les mots reunis 
 	*/
 	s, err := ioutil.ReadFile("word1.txt") // ouverture du fichier word1 contenant tout les mots et qui seront stockés dans s
@@ -51,27 +48,15 @@ func chooseWord() string {
 		fmt.Println(" Le fichier word1.txt a planter...")
 		os.Exit(1)
 	}
-	var list []string
-	var word string = ""
-	for i := 0; i < len(s); i++ { // debut boucle
-		if string(s[i]) == "\n" {
-			list = append(list,word) 
-			word = ""
-		}else {
-			word = word + string(int(s[i]-32))// on ajoute tout les mots contenu dans le fichier dans une liste nommé "list"
-		}
-	} // fin boucle
-	list = append(list,word)
+	list := strings.Split(string(s),"\n") 
 	rand.Seed(time.Now().UnixNano()) // ceci permet de faire en sorte que l'aléatoire marche 
-	return list[rand.Int31n(83)] // renvois un mot choisis aléatoirement dans notre liste de mots 
+	return strings.ToUpper(list[rand.Int31n(83)]) // renvois un mot choisis aléatoirement dans notre liste de mots 
 }
 
 func showJosé(attemps int) {
 	/*
 	fonction permettant d'afficher le pendu 
-
 	input : - attemps type int il sagit du nombre de tentative qu'il reste avant de perde il permet donc d'afficher la position du bon pendu 
-
 	compléxité : O(71)
 	*/
 	if attemps == 10 { // ne rien renvoyer si il n'y a pas eu d'erreur
@@ -94,11 +79,8 @@ func showJosé(attemps int) {
 func take_letter(word2 string) []string{
 	/*
 	fonction permettant de donner une lettre qui est présente dans le mot a deviner 
-
 	input : word2 type string il s'agit du mot a deviner 
-
 	return : List/string il s'agit de la liste des lettres choisie par l'utlisateur 
-
 	compléxité : O(n) ; n = longueur du mot
 	*/
 	var tab []string
@@ -115,12 +97,9 @@ func take_letter(word2 string) []string{
 func win(wordChoose string, group_letter []string) bool {
 	/*
 	fonction qui permet de savoir si l'utilisateur a gagné en trouver toutes les lettres 
-
 	input : -wordChoose type string il sagit du mot que l'utilisateur doit choisir 
 			-group_letter type List/string il s'agit des lettres que l'utilisateur a choisi 
-
 	return : bool 
-
 	Complexité : O(n²)
 	*/
 	count := 0 
@@ -141,12 +120,9 @@ func win(wordChoose string, group_letter []string) bool {
 func testLetter(letter string, letter_choose[]string) bool{
 	/*
 	fonction permettant de vérifier si la lettre choisi par l'utilisateur est déjà contenu dans la liste des lettres qu'à choisi l'utilisateur 
-
 	input : -letter type string il s'agit de la lettre choisi par l'utilsateur
 			-letter_choose type List/string il s'agit de la liste de lettres qu'à déjà rentré l'utilisateur 
-
 	return : Bool
-
 	Compléxité : O(2n) ; n = letter_choose
 	*/
 	for i := 0 ;i < len(letter_choose) ; i++{
@@ -160,12 +136,9 @@ func testLetter(letter string, letter_choose[]string) bool{
 func letterChooseTest(letter string, word string) bool {
 	/*
 	fonction permettant de vérifier si la lettre chosi par l'utilisateur est contenu dans le mot a deviner
-
 	input : -letter : type string il sagit de la lettre choisi par l'utilisateur
 			-word : type string il sagit du mot a deviner
-
 	return : Bool
-
 	complexité : O(2n) ; n = len(word)
 	*/
 	for i := 0; i < len(word); i++ {
@@ -179,9 +152,7 @@ func letterChooseTest(letter string, word string) bool {
 func replay() bool{
 	/*
 	fonction permettant de savoir si l'utilisateur veut relancer une partie ou non 
-
 	return : Bool
-
 	compléxité : O(4)
 	*/
 	answer := ""
@@ -198,7 +169,6 @@ func replay() bool{
 func clear() {
 	/*
 	fonction permettant de clear la console pour que l'affichage soit plus propre 
-
 	compléxité : O(30)
 	*/
 	for i := 0; i < 30; i++ {
@@ -212,6 +182,8 @@ func begin() {
 	*/
 	attemps := 10 // il s'agit du nombre de tentatives qu'il nous reste 
 	word := chooseWord() // on choisi un mot aléatoire
+	test := strings.Split(word, "")
+	fmt.Print(len(test))
 	letterUser := take_letter(word)
 	letter := ""
 	for attemps > 0 && win(word,letterUser) == false{ // on continu de jouer tant que la fonction win est fausse et que le nombre de tentatives est strictement supérieur a 0 /
