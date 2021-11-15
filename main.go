@@ -8,20 +8,20 @@ import (
 	"os"
 	"strings"
 )
-
-func main() {
-	const hangman = `
- _                                             
+const hangman = `
+_                                             
 | |                                            
 | |__   __ _ _ __   __ _ _ __ ___   __ _ _ __  
 | '_ \ / _  |  _ \ / _  |  _   _ \ / _  |  _ \ 
 | | | | (_| | | | | (_| | | | | | | (_| | | | |
 |_| |_|\__,_|_| |_|\__, |_| |_| |_|\__,_|_| |_|
-                    __/ |                      
-                   |___/ 
+				   __/ |                      
+				  |___/ 
 by Flavio & Dylan
 `
-	fmt.Print(hangman)
+
+func main() {
+	fmt.Print(hangman)// on affiche le string hangman qui est juste au dessus 
 	begin()
 }
 
