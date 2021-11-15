@@ -10,6 +10,18 @@ import (
 )
 
 func main() {
+	const hangman = `
+ _                                             
+| |                                            
+| |__   __ _ _ __   __ _ _ __ ___   __ _ _ __  
+| '_ \ / _  |  _ \ / _  |  _   _ \ / _  |  _ \ 
+| | | | (_| | | | | (_| | | | | | | (_| | | | |
+|_| |_|\__,_|_| |_|\__, |_| |_| |_|\__,_|_| |_|
+                    __/ |                      
+                   |___/ 
+by Flavio & Dylan
+`
+	fmt.Print(hangman)
 	begin()
 }
 
@@ -49,8 +61,7 @@ func chooseWord() string {
 		os.Exit(1)
 	}
 	list := strings.Split(string(s),"\n") 
-	rand.Seed(time.Now().UnixNano()) // ceci permet de faire en sorte que l'aléatoire marche
-	fmt.Print(list) 
+	rand.Seed(time.Now().UnixNano()) // ceci permet de faire en sorte que l'aléatoire marche 
 	return strings.ToUpper(list[rand.Int31n(83)]) // renvois un mot choisis aléatoirement dans notre liste de mots 
 }
 
