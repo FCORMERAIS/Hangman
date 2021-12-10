@@ -8,6 +8,7 @@ import (
 	"os"
 	"strings"
 )
+
 const hangman = `
 _                                             
 | |                                            
@@ -24,6 +25,7 @@ func main() {
 	fmt.Print(hangman)// on affiche le string hangman qui est juste au dessus 
 	begin()
 }
+
 
 func printWord(letter_choose []string, word []string) {
 	/*
@@ -203,7 +205,10 @@ func begin() {
 		fmt.Print("voici le mot que vous devez deviner : ")
 		printWord(letterUser,test)// imprime le mot que l'on doit deviner avec seulement les lettres 
 		fmt.Print("vous avez ")
-		fmt.Print(attemps) // on imprime 
+		for i:= 0 ; i < attemps ; i++ {
+		fmt.Print("❤ ") // on imprime 
+		}
+		fmt.Printf(" (%d)",attemps)
 		fmt.Print(" tentatives avant un d'échoué \n \n \n")
 		fmt.Print("les lettres que vous avez utilisez sont : ")
 		fmt.Println(letterUser) // imprime toutes les lettres que l'utilisateur a rentré 
